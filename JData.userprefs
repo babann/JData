@@ -1,0 +1,18 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="JData/Program.cs">
+    <Files>
+      <File FileName="JData/Program.cs" Line="26" Column="26" />
+      <File FileName="JData/JDataReader.cs" Line="41" Column="41" />
+      <File FileName="JData/JDataWriter.cs" Line="41" Column="41" />
+      <File FileName="JData/JDataFile.cs" Line="37" Column="37" />
+      <File FileName="JData/JDataHeader.cs" Line="41" Column="41" />
+      <File FileName="JData/JDataRow.cs" Line="35" Column="35" />
+      <File FileName="JData/JDataCell.cs" Line="37" Column="37" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
