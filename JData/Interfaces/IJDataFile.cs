@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace JData
 {
-	public interface IJDataFile
+    public interface IJDataFile : IDisposable, IBindingList
 	{
 		IJDataHeader Header { get; }
 
 		IEnumerable<IJDataRow> Data { get; }
 
+        IJDataRow this[int inndex] { get; }
+
 		int ColumnsCount { get; }
 
 		int RowsCount { get; }
 
-		IJDataRow this [int index] { get; }
+		IJDataRow CreateHeaderRow ();
 
-		void AppendHeader (params IJDataRow[] rows);
-
-		IJDataRow NewRow ();
-
-		IJDataRow AddDataRow ();
+		IJDataRow CreateDataRow ();
 	}
 }
 

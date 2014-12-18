@@ -23,15 +23,13 @@ namespace JData.Tests
 			string[] headerLine2 = { "col4", "col5", "col6", "col7" };
 
 			JDataFile file = new JDataFile ();
-			var headerRow1 = file.NewRow ();
+			var headerRow1 = file.CreateHeaderRow ();
 			headerRow1.AddValues (headerLine1);
-			file.AppendHeader (headerRow1);
 
 			Assert.AreEqual (headerLine1.Length, file.ColumnsCount);
 
-			var headerRow2 = file.NewRow ();
+			var headerRow2 = file.CreateHeaderRow ();
 			headerRow2.AddValues (headerLine2);
-			file.AppendHeader (headerRow2);
 
 			Assert.AreEqual (headerLine2.Length, file.ColumnsCount);
 		}
@@ -43,12 +41,12 @@ namespace JData.Tests
 			string[] dataLine2 = { "cell21", "cell22", "cell23", "cell24" };
 
 			JDataFile file = new JDataFile ();
-			var dataRow1 = file.AddDataRow ();
+			var dataRow1 = file.CreateDataRow ();
 			dataRow1.AddValues (dataLine1);
 
 			Assert.AreEqual (dataLine1[0], file[0][0].Value);
 
-			var dataRow2 = file.AddDataRow ();
+			var dataRow2 = file.CreateDataRow ();
 			dataRow2.AddValues (dataLine2);
 
 			Assert.AreEqual (dataLine2[1],file[1][1].Value);
@@ -122,16 +120,14 @@ namespace JData.Tests
 
 			JDataFile originalFile = new JDataFile ();
 
-			var headerRow1 = originalFile.NewRow ();
+			var headerRow1 = originalFile.CreateHeaderRow ();
 			headerRow1.AddValues (headerLine1);
-			originalFile.AppendHeader (headerRow1);
 
-			var headerRow2 = originalFile.NewRow ();
+			var headerRow2 = originalFile.CreateHeaderRow ();
 			headerRow2.AddValues (headerLine2);
-			originalFile.AppendHeader (headerRow2);
 
-			originalFile.AddDataRow ().AddValues (dataLine1);
-			originalFile.AddDataRow ().AddValues (dataLine2);
+			originalFile.CreateDataRow ().AddValues (dataLine1);
+			originalFile.CreateDataRow ().AddValues (dataLine2);
 
 			string fileName = System.IO.Path.GetTempFileName ();
 			originalFile.Save (fileName);

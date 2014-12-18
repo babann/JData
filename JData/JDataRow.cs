@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace JData
 {
@@ -58,6 +59,14 @@ namespace JData
 				return _cells [index];
 			}
 		}
+
+        public IJDataCell this[string column] 
+        { 
+            get 
+            {
+                return this[Parent.Header.GetColumnIndex(column)];
+            } 
+        }
 
 		#endregion
 
@@ -117,6 +126,19 @@ namespace JData
 			if (values == null)
 				throw new ArgumentNullException ("values");
 
+            if(!Parent.Header.HasRows)
+            {
+                var row = Parent.CreateHeaderRow();
+                int counter = 0;
+                foreach(var value in values)
+                {
+                    var cell = row.AddCell();
+                    cell.Value = "column " + counter.ToString();
+                    counter++;
+                }
+            }
+            var availableCells = Parent.Header.ColumnsCount;
+
 			foreach(var value in values)
 				_cells.Add(new JDataCell(this, string.IsNullOrEmpty(value) ? "" : value));
 		}
@@ -130,6 +152,66 @@ namespace JData
 		}
 
 		#endregion
-	}
+
+        public System.ComponentModel.AttributeCollection GetAttributes()
+        {
+            return new AttributeCollection((Attribute[])null);
+        }
+
+        public string GetClassName()
+        {
+            return null;
+        }
+
+        public string GetComponentName()
+        {
+            return null;
+        }
+
+        public System.ComponentModel.TypeConverter GetConverter()
+        {
+            return null;
+        }
+
+        public System.ComponentModel.EventDescriptor GetDefaultEvent()
+        {
+            return null;
+        }
+
+        public System.ComponentModel.PropertyDescriptor GetDefaultProperty()
+        {
+            return null;
+        }
+
+        public object GetEditor(Type editorBaseType)
+        {
+            return null;
+        }
+
+        public System.ComponentModel.EventDescriptorCollection GetEvents(Attribute[] attributes)
+        {
+            return new EventDescriptorCollection(null);
+        }
+
+        public System.ComponentModel.EventDescriptorCollection GetEvents()
+        {
+            return new EventDescriptorCollection(null);
+        }
+
+        public System.ComponentModel.PropertyDescriptorCollection GetProperties(Attribute[] attributes)
+        {
+            return Parent.Header.GetPropertyDescriptorCollection(attributes);
+        }
+
+        public System.ComponentModel.PropertyDescriptorCollection GetProperties()
+        {
+            return ((ICustomTypeDescriptor)this).GetProperties(null);
+        }
+
+        public object GetPropertyOwner(System.ComponentModel.PropertyDescriptor pd)
+        {
+            return this;
+        }
+    }
 }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace JData
 {
@@ -12,6 +13,7 @@ namespace JData
 	{
 		#region Private Fields
 
+        private PropertyDescriptorCollection propertyDescriptorCollectionCache;
 		private List<IJDataRow> _headerRows;
 
 		#endregion
@@ -90,13 +92,27 @@ namespace JData
 		/// <summary>
 		/// Adds the rows to the header.
 		/// </summary>
-		public void AddRows(params IJDataRow [] rows)
+		public IJDataRow CreateRow()
 		{
-			_headerRows.AddRange (rows.Select( x=> x.Parent == null ? x : new JDataRow(this.Parent, x)));
-			_headerRows.ForEach(x=> x.SetParent(this.Parent));
-
+            var row = new JDataRow(Parent);
+            _headerRows.Add(row);
+            return row;
 		}
 
+        public int GetColumnIndex(string name)
+        {
+            var row = _headerRows.First();
+            int cnt = 0;
+            foreach (var cell in row.Cells)
+            {
+                if (cell.Value == name)
+                    return cnt;
+
+                cnt++;
+            }
+
+            throw new KeyNotFoundException();
+        }
 		/// <summary>
 		/// Clear the rows.
 		/// </summary>
@@ -104,6 +120,24 @@ namespace JData
 		{
 			_headerRows.Clear ();
 		}
+
+        public PropertyDescriptorCollection GetPropertyDescriptorCollection(Attribute[] attributes)
+        {
+            if (propertyDescriptorCollectionCache == null)
+            {
+                int columnsCount = this.ColumnsCount;
+                PropertyDescriptor[] props = new PropertyDescriptor[columnsCount];
+                {
+                    for (int i = 0; i < columnsCount; i++)
+                    {
+                        props[i] = new JDataColumnPropertyDescriptor(_headerRows.First()[i]);
+                    }
+                }
+                propertyDescriptorCollectionCache = new PropertyDescriptorCollection(props);
+            }
+            return propertyDescriptorCollectionCache;
+        }
+
 	}
 }
 
