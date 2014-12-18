@@ -11,4 +11,11 @@ introduce our own file format. OpenXML idea is very attractive except for one th
 is bigger than JSON) and there is a lot of garbage inside output files. We need just column headers and the data.
 To achieve that goal I implemented this small library.
 
+=====
+Dec 18
+
+Introduced binding functionality. Now JDataFile can be set as DataSource for the Grid.
+(this functionality is not complete yet)
+
+=====
 Dependencies: Newtonsoft.JSON, ICSharpCode.SharpZipLib, NUnit for Tests
